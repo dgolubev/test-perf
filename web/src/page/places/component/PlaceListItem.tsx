@@ -79,7 +79,6 @@ const PlaceListItem = (
         }
       </td>
       <td>
-        {item.id}
         {
           item.thumbnail
             ? <img src={item.thumbnail} width="100"/>
@@ -87,7 +86,7 @@ const PlaceListItem = (
         }
       </td>
       <td>
-        <button onClick={handleEdit}>editX</button>
+        <button onClick={handleEdit}>edit</button>
       </td>
       <td>
         <button onClick={handleDelete}>delete</button>
