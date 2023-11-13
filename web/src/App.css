@@ -1,0 +1,20 @@
+body {
+    padding: 20px;
+}
+
+.places-list {
+    border:1px solid black;
+    width: 500px;
+    border-collapse: collapse;
+}
+
+
+.places-list  th, td {
+    border: 1px solid black;
+}
+
+.image-preview {
+    padding: 10px;
+    border: 1px solid black;
+    width: 200px;
+}

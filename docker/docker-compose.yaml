@@ -1,0 +1,65 @@
+version: "3.3"
+
+networks:
+  internal:
+
+services:
+
+  app-web:
+    container_name: perf-web
+    build:
+      context: ../web
+    image: test-perf-web
+    ports:
+      - 8001:8000
+    volumes:
+      - /app/build
+      - /app/node_modules
+      - ../web:/app
+    env_file:
+      - ../web/.env
+    command: "npm run start"
+    networks:
+      - internal
+
+  app-api:
+    container_name: perf-api
+    build:
+      context: ../laravel
+    image: test-perf-api
+    ports:
+      - 8000:8000
+    volumes:
+      - /app/vendor
+      - ../laravel:/app
+      - ./entrypoint.sh:/tmp/entrypoint.sh
+    env_file:
+      - ../laravel/.env
+    links:
+      - app-db
+    depends_on:
+      - app-db
+    environment:
+      docker: 'true'
+    entrypoint: /tmp/entrypoint.sh
+    networks:
+      - internal
+
+  app-db:
+    container_name: perf-db
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'webUser'
+      MYSQL_PASSWORD: 'webPass'
+      MYSQL_ROOT_PASSWORD: 'webPass'
+    networks:
+      - internal
+
